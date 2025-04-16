@@ -114,7 +114,8 @@ public class ChatReceiveListener {
         }
       }
       else if (playerRank.startsWith("VIP")) {
-        Component vipIcon = Component.icon(Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/vip.png"))
+        Component vipIcon = Component.icon(
+            Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/vip.png"))
         ).setHeight(12).setWidth(22);
         for (int i = 0; i < message.children().size(); i++) {
           Component c = message.children().get(i);
@@ -123,6 +124,21 @@ public class ChatReceiveListener {
           if (!t.content().startsWith(playerRank))
             continue;
           Component n = vipIcon.append(Component.text(space ? " " : ""));
+          message.replace(i, n);
+          modifiedMessage = modifiedMessage.append(Component.text(" ").append(message));
+          break;
+        }
+      }
+      else if (playerRank.startsWith("Spieler")) {
+        Component spielerIcon = Component.icon(Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/spieler.png"))
+        ).setHeight(12).setWidth(22);
+        for (int i = 0; i < message.children().size(); i++) {
+          Component c = message.children().get(i);
+          TextComponent t = ((TextComponent) c);
+          boolean space = t.content().endsWith(" ");
+          if (!t.content().startsWith(playerRank))
+            continue;
+          Component n = spielerIcon.append(Component.text(space ? " " : ""));
           message.replace(i, n);
           modifiedMessage = modifiedMessage.append(Component.text(" ").append(message));
           break;
@@ -191,6 +207,13 @@ public class ChatReceiveListener {
         int index = rangName.indexOf("VIP");
         if (index != -1) {
           String foundWord = rangName.substring(index, index + "VIP".length());
+          return foundWord;
+        }
+      }
+      else if (rangName.startsWith("Spieler")) {
+        int index = rangName.indexOf("Spieler");
+        if (index != -1) {
+          String foundWord = rangName.substring(index, index + "Spieler".length());
           return foundWord;
         }
       }
