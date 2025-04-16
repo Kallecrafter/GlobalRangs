@@ -8,7 +8,4 @@ dependencies {
 
 labyModAnnotationProcessor {
     referenceType = ReferenceType.DEFAULT
-
-
-
 }
