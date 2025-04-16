@@ -27,13 +27,14 @@ public class ChatReceiveListener {
     String playerRank = getPlayerrank(event.message());
     Component message = event.message();
     Component modifiedMessage = Component.empty();
-    Component icon2 = Component.icon(Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/grdesigner.png"))).setHeight(12).setWidth(22);
-    Component icon3 = Component.icon(Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/grdev.png"))).setHeight(12).setWidth(22);
+    String server = Laby.references().serverController().getCurrentStorageServerData().getName().toString().toLowerCase();
     if (playerRank != null) {
-      //if (Laby.references().serverController().getCurrentStorageServerData().getName())
+      if (Laby.references().serverController().getCurrentStorageServerData().getName().toString().toLowerCase() != ServerChecker.serverchecker(Laby.references().serverController().getCurrentStorageServerData().getName().toString().toLowerCase())) {
+        return;
+      }
       if (playerRank.equals("Owner")) {
         Component ownerIcon;
-        if (!Laby.references().serverController().getCurrentStorageServerData().getName().toString().toLowerCase().contains("craftergang")) {
+        if (!server.contains("craftergang")) {
           ownerIcon = Component.icon(Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/ownerred.png"))).setHeight(12).setWidth(22);
         } else {
           ownerIcon = Component.icon(Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/ownerblue.png"))).setHeight(12).setWidth(22);
@@ -49,7 +50,7 @@ public class ChatReceiveListener {
             break;
           }
       }
-      else if (playerRank.startsWith("Admin") || playerRank.startsWith("Admin+")) {
+      else if (playerRank.startsWith("Admin")) {
         Component adminIcon = Component.icon(
             Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/admin.png"))
         ).setHeight(12).setWidth(22);
@@ -97,7 +98,7 @@ public class ChatReceiveListener {
           break;
         }
       }
-      else if (playerRank.equals("Freund/in") || playerRank.equals("Freund/in+") || playerRank.equals("TeamFreund+") || playerRank.equals("TeamFreund")) {
+      else if (playerRank.startsWith("Freund/in")|| playerRank.equals("TeamFreund")) {
         Component freundicon = Component.icon(
             Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/teamfreund.png"))
         ).setHeight(12).setWidth(22);
@@ -129,9 +130,36 @@ public class ChatReceiveListener {
           break;
         }
       }
+      else if (playerRank.startsWith("Supremium") || playerRank.startsWith("Supreme") && server.contains("gommehd")) {
+        Component supremiumIcon = Component.icon(Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/supremium.png"))).setHeight(12).setWidth(22);
+        for (int i = 0; i < message.children().size(); i++) {
+          Component c = message.children().get(i);
+          TextComponent t = ((TextComponent) c);
+          boolean space = t.content().endsWith(" ");
+          if (!t.content().startsWith(playerRank))
+            continue;
+          Component n = supremiumIcon.append(Component.text(space ? " " : ""));
+          message.replace(i, n);
+          modifiedMessage = modifiedMessage.append(Component.text(" ").append(message));
+          break;
+        }
+      }
+      else if (playerRank.startsWith("Premium") && server.contains("gommehd")) {
+        Component premiumIcon = Component.icon(Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/premium.png"))).setHeight(12).setWidth(22);
+        for (int i = 0; i < message.children().size(); i++) {
+          Component c = message.children().get(i);
+          TextComponent t = ((TextComponent) c);
+          boolean space = t.content().endsWith(" ");
+          if (!t.content().startsWith(playerRank))
+            continue;
+          Component n = premiumIcon.append(Component.text(space ? " " : ""));
+          message.replace(i, n);
+          modifiedMessage = modifiedMessage.append(Component.text(" ").append(message));
+          break;
+        }
+      }
       else if (playerRank.startsWith("Spieler")) {
-        Component spielerIcon = Component.icon(Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/spieler.png"))
-        ).setHeight(12).setWidth(22);
+        Component spielerIcon = Component.icon(Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/spieler.png"))).setHeight(12).setWidth(22);
         for (int i = 0; i < message.children().size(); i++) {
           Component c = message.children().get(i);
           TextComponent t = ((TextComponent) c);
@@ -210,6 +238,20 @@ public class ChatReceiveListener {
           return foundWord;
         }
       }
+      else if (rangName.startsWith("Supremium")) {
+        int index = rangName.indexOf("Supremium");
+        if (index != -1) {
+          String foundWord = rangName.substring(index, index + "Supremium".length());
+          return foundWord;
+        }
+      }
+      else if (rangName.startsWith("Supremium")) {
+        int index = rangName.indexOf("Supremium");
+        if (index != -1) {
+          String foundWord = rangName.substring(index, index + "Supremium".length());
+          return foundWord;
+        }
+      }
       else if (rangName.startsWith("Spieler")) {
         int index = rangName.indexOf("Spieler");
         if (index != -1) {
@@ -220,6 +262,9 @@ public class ChatReceiveListener {
     }
     return null;
   }
+
+
+
 
 
 }
