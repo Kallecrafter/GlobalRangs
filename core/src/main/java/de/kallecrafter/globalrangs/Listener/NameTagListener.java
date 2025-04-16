@@ -28,11 +28,14 @@ public class NameTagListener {
   public void onChatReceive(PlayerNameTagRenderEvent event) {
     String playerRank = getPlayerrank(event.getPlayerInfo().getTeam().getPrefix());
     Component modifiedMessage = Component.empty();
+    String server = Laby.references().serverController().getCurrentStorageServerData().getName().toString().toLowerCase();
     Component icon1 = null;
     if (playerRank != null) {
-      //if (Laby.references().serverController().getCurrentStorageServerData().getName())
+      if (Laby.references().serverController().getCurrentStorageServerData().getName().toString().toLowerCase() != ServerChecker.serverchecker(Laby.references().serverController().getCurrentStorageServerData().getName().toString().toLowerCase())) {
+        return;
+      }
       if (playerRank.equals("Owner")) {
-        if (!Laby.references().serverController().getCurrentStorageServerData().getName().toString().toLowerCase().contains("craftergang")) {
+        if (!server.contains("craftergang")) {
           icon1 = Component.icon(Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/ownerred.png"))).setHeight(8).setWidth(18);
         } else {
           icon1 = Component.icon(Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/ownerblue.png"))).setHeight(8).setWidth(18);
@@ -55,6 +58,18 @@ public class NameTagListener {
       else if (playerRank.startsWith("VIP")) {
         icon1 = Component.icon(Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/vip.png"))).setHeight(12).setWidth(22);
       }
+      else if (playerRank.startsWith("Build") || playerRank.startsWith("Builder")) {
+        icon1 = Component.icon(Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/builder.png"))).setHeight(12).setWidth(22);
+      }
+      else if (playerRank.startsWith("Supremium") || playerRank.startsWith("Supreme") && server.contains("gommehd")) {
+        icon1 = Component.icon(Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/supremium.png"))).setHeight(12).setWidth(22);
+      }
+      else if (playerRank.startsWith("Premium") && server.contains("gommehd")) {
+        icon1 = Component.icon(Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/supremium.png"))).setHeight(12).setWidth(22);
+      }
+      else if (playerRank.startsWith("S")) {
+        icon1 = Component.icon(Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/spieler.png"))).setHeight(12).setWidth(22);
+      }
       event.setNameTag(icon1.append(Component.text(" ")).append(Component.text("§7" + event.getPlayerInfo().profile().getUsername())));
       }
     }
@@ -64,7 +79,7 @@ public class NameTagListener {
   public static String getPlayerrank(Component rang) {
     String rangName = null;
     if (rang != null) {
-      rangName = rang.toString();
+      rangName = rang.toString().toLowerCase();
       if (rangName.contains("Owner")) {
         int index = rangName.indexOf("Owner");
 
@@ -115,6 +130,14 @@ public class NameTagListener {
 
         if (index != -1) {
           String foundWord = rangName.substring(index, index + "vip".length());
+          return foundWord;
+        }
+      }
+      else if (rangName.equalsIgnoreCase("S")) {
+        int index = rangName.indexOf("S");
+
+        if (index != -1) {
+          String foundWord = rangName.substring(index, index + "S".length());
           return foundWord;
         }
       }
