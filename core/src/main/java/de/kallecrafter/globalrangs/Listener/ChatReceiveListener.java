@@ -82,7 +82,7 @@ public class ChatReceiveListener {
           }
       }
       else if (playerRank.startsWith("Dev")) {
-        Component modIcon = Component.icon(
+        Component devIcon = Component.icon(
             Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/dev.png"))
         ).setHeight(12).setWidth(22);
         for (int i = 0; i < message.children().size(); i++) {
@@ -91,14 +91,14 @@ public class ChatReceiveListener {
           boolean space = t.content().endsWith(" ");
           if (!t.content().startsWith(playerRank))
             continue;
-          Component n = modIcon.append(Component.text(space ? " " : ""));
+          Component n = devIcon.append(Component.text(space ? " " : ""));
           message.replace(i, n);
           modifiedMessage = modifiedMessage.append(Component.text(" ").append(message));
           break;
         }
       }
       else if (playerRank.equals("Freund/in") || playerRank.equals("Freund/in+") || playerRank.equals("TeamFreund+") || playerRank.equals("TeamFreund")) {
-        Component modIcon = Component.icon(
+        Component freundicon = Component.icon(
             Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/teamfreund.png"))
         ).setHeight(12).setWidth(22);
         for (int i = 0; i < message.children().size(); i++) {
@@ -107,7 +107,7 @@ public class ChatReceiveListener {
           boolean space = t.content().endsWith(" ");
           if (!t.content().startsWith(playerRank))
             continue;
-          Component n = modIcon.append(Component.text(space ? " " : ""));
+          Component n = freundicon.append(Component.text(space ? " " : ""));
           message.replace(i, n);
           modifiedMessage = modifiedMessage.append(Component.text(" ").append(message));
           break;
@@ -173,31 +173,17 @@ public class ChatReceiveListener {
           return foundWord;
         }
       }
-      else if (rangName.equalsIgnoreCase("Freund/in")) {
+      else if (rangName.startsWith("Freund/in")) {
         int index = rangName.indexOf("Freund/in");
         if (index != -1) {
           String foundWord = rangName.substring(index, index + "Freund/in".length());
           return foundWord;
         }
       }
-      else if (rangName.equalsIgnoreCase("TeamFreund")) {
+      else if (rangName.startsWith("TeamFreund")) {
         int index = rangName.indexOf("TeamFreund");
         if (index != -1) {
           String foundWord = rangName.substring(index, index + "TeamFreund".length());
-          return foundWord;
-        }
-      }
-      else if (rangName.equalsIgnoreCase("Freund/in+")) {
-        int index = rangName.indexOf("Freund/in+");
-        if (index != -1) {
-          String foundWord = rangName.substring(index, index + "Freund/in+".length());
-          return foundWord;
-        }
-      }
-      else if (rangName.equalsIgnoreCase("TeamFreund+")) {
-        int index = rangName.indexOf("TeamFreund+");
-        if (index != -1) {
-          String foundWord = rangName.substring(index, index + "TeamFreund+".length());
           return foundWord;
         }
       }

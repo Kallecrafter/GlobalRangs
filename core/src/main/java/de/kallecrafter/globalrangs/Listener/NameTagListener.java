@@ -103,24 +103,10 @@ public class NameTagListener {
           return foundWord;
         }
       }
-      else if (rangName.startsWith("TeamFreund+")) {
-        int index = rangName.indexOf("TeamFreund+");
-        if (index != -1) {
-          String foundWord = rangName.substring(index, index + "TeamFreund+".length());
-          return foundWord;
-        }
-      }
-      else if (rangName.equalsIgnoreCase("TF")) {
+      else if (rangName.startsWith("TF")) {
         int index = rangName.indexOf("TF");
         if (index != -1) {
           String foundWord = rangName.substring(index, index + "TF".length());
-          return foundWord;
-        }
-      }
-      else if (rangName.equalsIgnoreCase("TF+")) {
-        int index = rangName.indexOf("TF+");
-        if (index != -1) {
-          String foundWord = rangName.substring(index, index + "TF+".length());
           return foundWord;
         }
       }
