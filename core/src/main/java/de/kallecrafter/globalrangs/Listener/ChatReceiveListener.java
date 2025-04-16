@@ -97,7 +97,7 @@ public class ChatReceiveListener {
           break;
         }
       }
-      else if (playerRank.startsWith("TeamFreund") || playerRank.startsWith("TF")) {
+      else if (playerRank.startsWith("Freund/in")) {
         Component modIcon = Component.icon(
             Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/teamfreund.png"))
         ).setHeight(12).setWidth(22);
@@ -173,11 +173,10 @@ public class ChatReceiveListener {
           return foundWord;
         }
       }
-      else if (rangName.startsWith("TeamFreund") || rangName.startsWith("TF")) {
-        int index = rangName.indexOf("TeamFreund");
-
+      else if (rangName.startsWith("Freund/in")) {
+        int index = rangName.indexOf("Freund/in");
         if (index != -1) {
-          String foundWord = rangName.substring(index, index + "TeamFreund".length());
+          String foundWord = rangName.substring(index, index + "Freund/in".length());
           return foundWord;
         }
       }
