@@ -81,6 +81,38 @@ public class ChatReceiveListener {
             break;
           }
       }
+      else if (playerRank.startsWith("Dev")) {
+        Component modIcon = Component.icon(
+            Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/dev.png"))
+        ).setHeight(12).setWidth(22);
+        for (int i = 0; i < message.children().size(); i++) {
+          Component c = message.children().get(i);
+          TextComponent t = ((TextComponent) c);
+          boolean space = t.content().endsWith(" ");
+          if (!t.content().startsWith(playerRank))
+            continue;
+          Component n = modIcon.append(Component.text(space ? " " : ""));
+          message.replace(i, n);
+          modifiedMessage = modifiedMessage.append(Component.text(" ").append(message));
+          break;
+        }
+      }
+      else if (playerRank.startsWith("TeamFreund") || playerRank.startsWith("TF")) {
+        Component modIcon = Component.icon(
+            Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/teamfreund.png"))
+        ).setHeight(12).setWidth(22);
+        for (int i = 0; i < message.children().size(); i++) {
+          Component c = message.children().get(i);
+          TextComponent t = ((TextComponent) c);
+          boolean space = t.content().endsWith(" ");
+          if (!t.content().startsWith(playerRank))
+            continue;
+          Component n = modIcon.append(Component.text(space ? " " : ""));
+          message.replace(i, n);
+          modifiedMessage = modifiedMessage.append(Component.text(" ").append(message));
+          break;
+        }
+      }
       else if (playerRank.startsWith("VIP")) {
         Component vipIcon = Component.icon(Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/vip.png"))
         ).setHeight(12).setWidth(22);
@@ -141,7 +173,7 @@ public class ChatReceiveListener {
           return foundWord;
         }
       }
-      else if (rangName.startsWith("TeamFreund")) {
+      else if (rangName.startsWith("TeamFreund") || rangName.startsWith("TF")) {
         int index = rangName.indexOf("TeamFreund");
 
         if (index != -1) {

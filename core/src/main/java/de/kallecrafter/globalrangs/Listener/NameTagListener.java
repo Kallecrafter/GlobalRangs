@@ -46,10 +46,10 @@ public class NameTagListener {
         ).setHeight(8).setWidth(18);
       }
       else if (playerRank.startsWith("Dev")) {
-        icon1 = Component.icon(Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/mod.png"))
+        icon1 = Component.icon(Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/dev.png"))
         ).setHeight(8).setWidth(18);
       }
-      else if (playerRank.startsWith("TeamFreund")) {
+      else if (playerRank.startsWith("TeamFreund") || playerRank.startsWith("TF")) {
         icon1 = Component.icon(Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/teamfreund.png"))).setHeight(12).setWidth(22);
       }
       else if (playerRank.startsWith("VIP")) {
@@ -96,7 +96,7 @@ public class NameTagListener {
           return foundWord;
         }
       }
-      else if (rangName.startsWith("TeamFreund")) {
+      else if (rangName.startsWith("TeamFreund") || rangName.startsWith("TF")) {
         int index = rangName.indexOf("TeamFreund");
 
         if (index != -1) {
