@@ -133,11 +133,27 @@ public class ChatReceiveListener {
           return foundWord;
         }
       }
-      else if (rangName.startsWith("vip")) {
-        int index = rangName.indexOf("vip");
+      else if (rangName.startsWith("Dev")) {
+        int index = rangName.indexOf("Dev");
 
         if (index != -1) {
-          String foundWord = rangName.substring(index, index + "vip".length());
+          String foundWord = rangName.substring(index, index + "Dev".length());
+          return foundWord;
+        }
+      }
+      else if (rangName.startsWith("TeamFreund")) {
+        int index = rangName.indexOf("TeamFreund");
+
+        if (index != -1) {
+          String foundWord = rangName.substring(index, index + "TeamFreund".length());
+          return foundWord;
+        }
+      }
+      else if (rangName.startsWith("VIP")) {
+        int index = rangName.indexOf("VIP");
+
+        if (index != -1) {
+          String foundWord = rangName.substring(index, index + "VIP".length());
           return foundWord;
         }
       }
