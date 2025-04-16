@@ -49,7 +49,7 @@ public class NameTagListener {
         icon1 = Component.icon(Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/dev.png"))
         ).setHeight(8).setWidth(18);
       }
-      else if (playerRank.startsWith("TeamFreund") || playerRank.startsWith("TF") || playerRank.startsWith("TF+")) {
+      else if (playerRank.startsWith("TeamFreund") || playerRank.startsWith("TeamFreund+") || playerRank.startsWith("TF") || playerRank.startsWith("TF+")) {
         icon1 = Component.icon(Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/teamfreund.png"))).setHeight(12).setWidth(22);
       }
       else if (playerRank.startsWith("VIP")) {
@@ -72,7 +72,7 @@ public class NameTagListener {
           String foundWord = rangName.substring(index, index + "Owner".length());
           return foundWord;
         }
-      } else if (rangName.contains("Admin") || rangName.contains("Admin+")) {
+      } else if (rangName.contains("Admin")) {
         int index = rangName.indexOf("Admin");
 
         if (index != -1) {
@@ -103,10 +103,24 @@ public class NameTagListener {
           return foundWord;
         }
       }
+      else if (rangName.startsWith("TeamFreund+")) {
+        int index = rangName.indexOf("TeamFreund+");
+        if (index != -1) {
+          String foundWord = rangName.substring(index, index + "TeamFreund+".length());
+          return foundWord;
+        }
+      }
       else if (rangName.equalsIgnoreCase("TF")) {
         int index = rangName.indexOf("TF");
         if (index != -1) {
           String foundWord = rangName.substring(index, index + "TF".length());
+          return foundWord;
+        }
+      }
+      else if (rangName.equalsIgnoreCase("TF+")) {
+        int index = rangName.indexOf("TF+");
+        if (index != -1) {
+          String foundWord = rangName.substring(index, index + "TF+".length());
           return foundWord;
         }
       }

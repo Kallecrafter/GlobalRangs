@@ -97,7 +97,7 @@ public class ChatReceiveListener {
           break;
         }
       }
-      else if (playerRank.equals("Freund/in") || playerRank.equals("Freund/in+")) {
+      else if (playerRank.equals("Freund/in") || playerRank.equals("Freund/in+") || playerRank.equals("TeamFreund+") || playerRank.equals("TeamFreund")) {
         Component modIcon = Component.icon(
             Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/teamfreund.png"))
         ).setHeight(12).setWidth(22);
@@ -180,9 +180,29 @@ public class ChatReceiveListener {
           return foundWord;
         }
       }
+      else if (rangName.equalsIgnoreCase("TeamFreund")) {
+        int index = rangName.indexOf("TeamFreund");
+        if (index != -1) {
+          String foundWord = rangName.substring(index, index + "TeamFreund".length());
+          return foundWord;
+        }
+      }
+      else if (rangName.equalsIgnoreCase("Freund/in+")) {
+        int index = rangName.indexOf("Freund/in+");
+        if (index != -1) {
+          String foundWord = rangName.substring(index, index + "Freund/in+".length());
+          return foundWord;
+        }
+      }
+      else if (rangName.equalsIgnoreCase("TeamFreund+")) {
+        int index = rangName.indexOf("TeamFreund+");
+        if (index != -1) {
+          String foundWord = rangName.substring(index, index + "TeamFreund+".length());
+          return foundWord;
+        }
+      }
       else if (rangName.startsWith("VIP")) {
         int index = rangName.indexOf("VIP");
-
         if (index != -1) {
           String foundWord = rangName.substring(index, index + "VIP".length());
           return foundWord;
