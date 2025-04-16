@@ -103,7 +103,7 @@ public class NameTagListener {
           return foundWord;
         }
       }
-      else if (rangName.startsWith("TF")) {
+      else if (rangName.equalsIgnoreCase("TF")) {
         int index = rangName.indexOf("TF");
         if (index != -1) {
           String foundWord = rangName.substring(index, index + "TF".length());

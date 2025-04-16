@@ -173,7 +173,7 @@ public class ChatReceiveListener {
           return foundWord;
         }
       }
-      else if (rangName.startsWith("Freund/in")) {
+      else if (rangName.equalsIgnoreCase("Freund/in")) {
         int index = rangName.indexOf("Freund/in");
         if (index != -1) {
           String foundWord = rangName.substring(index, index + "Freund/in".length());
