@@ -49,7 +49,7 @@ public class ChatReceiveListener {
             break;
           }
       }
-      else if (playerRank.startsWith("Admin")) {
+      else if (playerRank.startsWith("Admin") || playerRank.startsWith("Admin+")) {
         Component adminIcon = Component.icon(
             Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/admin.png"))
         ).setHeight(12).setWidth(22);
@@ -97,7 +97,7 @@ public class ChatReceiveListener {
           break;
         }
       }
-      else if (playerRank.startsWith("Freund/in")) {
+      else if (playerRank.equals("Freund/in") || playerRank.equals("Freund/in+")) {
         Component modIcon = Component.icon(
             Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/teamfreund.png"))
         ).setHeight(12).setWidth(22);
