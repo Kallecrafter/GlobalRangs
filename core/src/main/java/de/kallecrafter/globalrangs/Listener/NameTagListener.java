@@ -28,7 +28,7 @@ public class NameTagListener {
 
 
   @Subscribe
-  public void onChatReceive(PlayerNameTagRenderEvent event) {
+  public void onNameTagReceive(PlayerNameTagRenderEvent event) {
     String playerRank = getPlayerrank(event.getPlayerInfo().getTeam().getPrefix());
     Component modifiedMessage = Component.empty();
     String server = Laby.references().serverController().getCurrentStorageServerData().getName().toString().toLowerCase();
@@ -70,16 +70,19 @@ public class NameTagListener {
           icon1 = Component.icon(
                   Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/builder.png")))
               .setHeight(12).setWidth(22);
-        } else if (playerRank.startsWith("Supremium")
-            || playerRank.startsWith("Supreme") && server.contains("gommehd")) {
+        } else if (playerRank.startsWith("Supremium") || playerRank.startsWith("Supreme") || playerRank.startsWith("§b") && server.contains("gommehd")) {
           icon1 = Component.icon(
                   Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/supremium.png")))
               .setHeight(12).setWidth(22);
-        } else if (playerRank.startsWith("Premium") && server.contains("gommehd")) {
+        } else if (playerRank.startsWith("Premium") || playerRank.startsWith("§6") && server.contains("gommehd")) {
           icon1 = Component.icon(
                   Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/supremium.png")))
               .setHeight(12).setWidth(22);
-        } else if (playerRank.startsWith("S")) {
+        } else if (playerRank.startsWith("S") && server.contains("craftergang")) {
+          icon1 = Component.icon(
+                  Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/spieler.png")))
+              .setHeight(12).setWidth(22);
+        } else if (playerRank.startsWith("§a") && server.contains("gommehd")) {
           icon1 = Component.icon(
                   Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/spieler.png")))
               .setHeight(12).setWidth(22);
@@ -94,7 +97,7 @@ public class NameTagListener {
   public static String getPlayerrank(Component rang) {
     String rangName = null;
     if (rang != null) {
-      rangName = rang.toString().toLowerCase();
+      rangName = rang.toString();
       if (rangName.contains("Owner")) {
         int index = rangName.indexOf("Owner");
 
@@ -126,10 +129,10 @@ public class NameTagListener {
           return foundWord;
         }
       }
-      else if (rangName.startsWith("TeamFreund")) {
-        int index = rangName.indexOf("TeamFreund");
+      else if (rangName.startsWith("Freund/in")) {
+        int index = rangName.indexOf("Freund/in");
         if (index != -1) {
-          String foundWord = rangName.substring(index, index + "TeamFreund".length());
+          String foundWord = rangName.substring(index, index + "Freund/in".length());
           return foundWord;
         }
       }
@@ -148,7 +151,15 @@ public class NameTagListener {
           return foundWord;
         }
       }
-      else if (rangName.startsWith("Supremium")) {
+      else if (rangName.equals("§b")) {
+        int index = rangName.indexOf("§b");
+
+        if (index != -1) {
+          String foundWord = rangName.substring(index, index + "§b".length());
+          return foundWord;
+        }
+      }
+      else if (rangName.equals("Supremium")) {
         int index = rangName.indexOf("Supremium");
 
         if (index != -1) {
@@ -172,6 +183,13 @@ public class NameTagListener {
           return foundWord;
         }
       }
+      else if (rangName.equals("§6")) {
+        int index = rangName.indexOf("§6");
+        if (index != -1) {
+          String foundWord = rangName.substring(index, index + "§6".length());
+          return foundWord;
+        }
+      }
       else if (rangName.startsWith("Premium")) {
         int index = rangName.indexOf("Premium");
 
@@ -180,9 +198,15 @@ public class NameTagListener {
           return foundWord;
         }
       }
-      else if (rangName.equalsIgnoreCase("S")) {
+      else if (rangName.equals("§a")) {
+        int index = rangName.indexOf("§a");
+        if (index != -1) {
+          String foundWord = rangName.substring(index, index + "§a".length());
+          return foundWord;
+        }
+      }
+      else if (rangName.equals("S")) {
         int index = rangName.indexOf("S");
-
         if (index != -1) {
           String foundWord = rangName.substring(index, index + "S".length());
           return foundWord;

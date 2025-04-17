@@ -160,7 +160,7 @@ public class ChatReceiveListener {
             modifiedMessage = modifiedMessage.append(Component.text(" ").append(message));
             break;
           }
-        } else if (playerRank.startsWith("Spieler")) {
+        } else if (playerRank.startsWith("Spieler") && server.contains("craftergang")) {
           Component spielerIcon = Component.icon(
                   Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/spieler.png")))
               .setHeight(12).setWidth(22);
@@ -175,6 +175,21 @@ public class ChatReceiveListener {
             modifiedMessage = modifiedMessage.append(Component.text(" ").append(message));
             break;
           }
+        } else if (playerRank.startsWith("§a") && server.contains("gommehd")) {
+            Component spielerIcon = Component.icon(
+                    Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/spieler.png")))
+                .setHeight(12).setWidth(22);
+            for (int i = 0; i < message.children().size(); i++) {
+              Component c = message.children().get(i);
+              TextComponent t = ((TextComponent) c);
+              boolean space = t.content().endsWith(" ");
+              if (!t.content().startsWith(playerRank))
+                continue;
+              Component n = spielerIcon.append(Component.text(space ? " " : ""));
+              message.replace(i, n);
+              modifiedMessage = modifiedMessage.append(Component.text(" ").append(message));
+              break;
+            }
         } else {
           modifiedMessage = modifiedMessage.append(message);
         }
@@ -244,6 +259,14 @@ public class ChatReceiveListener {
           return foundWord;
         }
       }
+      else if (rangName.startsWith("§b")) {
+        int index = rangName.indexOf("§b");
+
+        if (index != -1) {
+          String foundWord = rangName.substring(index, index + "§b".length());
+          return foundWord;
+        }
+      }
       else if (rangName.startsWith("Supremium")) {
         int index = rangName.indexOf("Supremium");
 
@@ -268,11 +291,26 @@ public class ChatReceiveListener {
           return foundWord;
         }
       }
+      else if (rangName.startsWith("§6")) {
+        int index = rangName.indexOf("§6");
+
+        if (index != -1) {
+          String foundWord = rangName.substring(index, index + "§6".length());
+          return foundWord;
+        }
+      }
       else if (rangName.startsWith("Premium")) {
         int index = rangName.indexOf("Premium");
 
         if (index != -1) {
           String foundWord = rangName.substring(index, index + "Premium".length());
+          return foundWord;
+        }
+      }
+      else if (rangName.startsWith("§a")) {
+        int index = rangName.indexOf("§a");
+        if (index != -1) {
+          String foundWord = rangName.substring(index, index + "§a".length());
           return foundWord;
         }
       }
