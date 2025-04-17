@@ -32,4 +32,6 @@ public class GlobalRangsMain extends LabyAddon<Config> {
     return instance;
   }
 
+
+
 }

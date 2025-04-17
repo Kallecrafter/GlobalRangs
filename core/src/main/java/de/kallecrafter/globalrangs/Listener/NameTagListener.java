@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static de.kallecrafter.globalrangs.Listener.ServerChecker.allowedServers;
+
 public class NameTagListener {
 
   private final GlobalRangsMain addon;
@@ -23,56 +25,78 @@ public class NameTagListener {
     this.addon = addon;
   }
 
+  private static final List<String> allowedServers = new ArrayList<>(Arrays.asList(
+      "craftergang",
+      "gommehd"
+  ));
+
+  private static boolean isAllowed(String serverName) {
+    return allowedServers.contains(serverName.toLowerCase());
+  }
+
 
   @Subscribe
   public void onChatReceive(PlayerNameTagRenderEvent event) {
     String playerRank = getPlayerrank(event.getPlayerInfo().getTeam().getPrefix());
     Component modifiedMessage = Component.empty();
-    String server = Laby.references().serverController().getCurrentStorageServerData().getName().toString().toLowerCase();
+    String server = Laby.references().serverController().getCurrentStorageServerData().getName().toLowerCase();
     Component icon1 = null;
     if (playerRank != null) {
-      if (Laby.references().serverController().getCurrentStorageServerData().getName().toString().toLowerCase() != ServerChecker.serverchecker(Laby.references().serverController().getCurrentStorageServerData().getName().toString().toLowerCase())) {
-        return;
-      }
-      if (playerRank.equals("Owner")) {
+      if (ServerChecker.isAllowed(server)) {
         if (!server.contains("craftergang")) {
-          icon1 = Component.icon(Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/ownerred.png"))).setHeight(8).setWidth(18);
-        } else {
-          icon1 = Component.icon(Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/ownerblue.png"))).setHeight(8).setWidth(18);
+          if (playerRank.equals("Owner")) {
+            icon1 = Component.icon(
+                    Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/ownerred.png")))
+                .setHeight(8).setWidth(18);
+          } else {
+            icon1 = Component.icon(Icon.texture(
+                    ResourceLocation.create("globalrangs", "textures/rangs/ownerblue.png")))
+                .setHeight(8).setWidth(18);
+          }
+        } else if (playerRank.startsWith("Admin")) {
+          icon1 = Component.icon(
+                  Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/admin.png")))
+              .setHeight(8).setWidth(18);
+        } else if (playerRank.startsWith("Mod")) {
+          icon1 = Component.icon(
+              Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/mod.png"))
+          ).setHeight(8).setWidth(18);
+        } else if (playerRank.startsWith("Dev")) {
+          icon1 = Component.icon(
+              Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/dev.png"))
+          ).setHeight(8).setWidth(18);
+        } else if (playerRank.startsWith("TeamFreund") || playerRank.startsWith("TeamFreund+")
+            || playerRank.startsWith("TF") || playerRank.startsWith("TF+")) {
+          icon1 = Component.icon(
+                  Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/teamfreund.png")))
+              .setHeight(12).setWidth(22);
+        } else if (playerRank.startsWith("VIP")) {
+          icon1 = Component.icon(
+                  Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/vip.png")))
+              .setHeight(12).setWidth(22);
+        } else if (playerRank.startsWith("Build") || playerRank.startsWith("Builder")) {
+          icon1 = Component.icon(
+                  Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/builder.png")))
+              .setHeight(12).setWidth(22);
+        } else if (playerRank.startsWith("Supremium")
+            || playerRank.startsWith("Supreme") && server.contains("gommehd")) {
+          icon1 = Component.icon(
+                  Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/supremium.png")))
+              .setHeight(12).setWidth(22);
+        } else if (playerRank.startsWith("Premium") && server.contains("gommehd")) {
+          icon1 = Component.icon(
+                  Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/supremium.png")))
+              .setHeight(12).setWidth(22);
+        } else if (playerRank.startsWith("S")) {
+          icon1 = Component.icon(
+                  Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/spieler.png")))
+              .setHeight(12).setWidth(22);
         }
-      }
-      else if (playerRank.startsWith("Admin")) {
-        icon1 = Component.icon(Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/admin.png"))).setHeight(8).setWidth(18);
-      }
-      else if (playerRank.startsWith("Mod")) {
-        icon1 = Component.icon(Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/mod.png"))
-        ).setHeight(8).setWidth(18);
-      }
-      else if (playerRank.startsWith("Dev")) {
-        icon1 = Component.icon(Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/dev.png"))
-        ).setHeight(8).setWidth(18);
-      }
-      else if (playerRank.startsWith("TeamFreund") || playerRank.startsWith("TeamFreund+") || playerRank.startsWith("TF") || playerRank.startsWith("TF+")) {
-        icon1 = Component.icon(Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/teamfreund.png"))).setHeight(12).setWidth(22);
-      }
-      else if (playerRank.startsWith("VIP")) {
-        icon1 = Component.icon(Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/vip.png"))).setHeight(12).setWidth(22);
-      }
-      else if (playerRank.startsWith("Build") || playerRank.startsWith("Builder")) {
-        icon1 = Component.icon(Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/builder.png"))).setHeight(12).setWidth(22);
-      }
-      else if (playerRank.startsWith("Supremium") || playerRank.startsWith("Supreme") && server.contains("gommehd")) {
-        icon1 = Component.icon(Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/supremium.png"))).setHeight(12).setWidth(22);
-      }
-      else if (playerRank.startsWith("Premium") && server.contains("gommehd")) {
-        icon1 = Component.icon(Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/supremium.png"))).setHeight(12).setWidth(22);
-      }
-      else if (playerRank.startsWith("S")) {
-        icon1 = Component.icon(Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/spieler.png"))).setHeight(12).setWidth(22);
-      }
-      event.setNameTag(icon1.append(Component.text(" ")).append(Component.text("§7" + event.getPlayerInfo().profile().getUsername())));
+        event.setNameTag(icon1.append(Component.text(" "))
+            .append(Component.text("§7" + event.getPlayerInfo().profile().getUsername())));
       }
     }
+  }
 
 
 
