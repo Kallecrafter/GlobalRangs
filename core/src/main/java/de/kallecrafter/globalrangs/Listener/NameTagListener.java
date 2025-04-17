@@ -25,14 +25,6 @@ public class NameTagListener {
     this.addon = addon;
   }
 
-  private static final List<String> allowedServers = new ArrayList<>(Arrays.asList(
-      "craftergang",
-      "gommehd"
-  ));
-
-  private static boolean isAllowed(String serverName) {
-    return allowedServers.contains(serverName.toLowerCase());
-  }
 
 
   @Subscribe
@@ -42,7 +34,7 @@ public class NameTagListener {
     String server = Laby.references().serverController().getCurrentStorageServerData().getName().toLowerCase();
     Component icon1 = null;
     if (playerRank != null) {
-      if (ServerChecker.isAllowed(server)) {
+      if (ServerChecker.allowedServers.contains(server)) {
         if (!server.contains("craftergang")) {
           if (playerRank.equals("Owner")) {
             icon1 = Component.icon(
