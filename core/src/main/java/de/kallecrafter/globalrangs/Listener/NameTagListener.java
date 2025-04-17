@@ -31,7 +31,7 @@ public class NameTagListener {
   public void onChatReceive(PlayerNameTagRenderEvent event) {
     String playerRank = getPlayerrank(event.getPlayerInfo().getTeam().getPrefix());
     Component modifiedMessage = Component.empty();
-    String server = Laby.references().serverController().getCurrentStorageServerData().getName().toLowerCase();
+    String server = Laby.references().serverController().getCurrentStorageServerData().getName().toString().toLowerCase();
     Component icon1 = null;
     if (playerRank != null) {
       if (ServerChecker.allowedServers.contains(server)) {
@@ -84,8 +84,7 @@ public class NameTagListener {
                   Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/spieler.png")))
               .setHeight(12).setWidth(22);
         }
-        event.setNameTag(icon1.append(Component.text(" "))
-            .append(Component.text("§7" + event.getPlayerInfo().profile().getUsername())));
+        event.setNameTag(icon1.append(Component.text("§7" + event.getPlayerInfo().profile().getUsername())));
       }
     }
   }
