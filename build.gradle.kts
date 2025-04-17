@@ -6,7 +6,7 @@ plugins {
 val versions = providers.gradleProperty("net.labymod.minecraft-versions").get().split(";")
 
 group = "de.kallecrafter"
-version = providers.environmentVariable("VERSION").getOrElse("1.0.1")
+version = providers.environmentVariable("VERSION").getOrElse("1.0.4")
 
 labyMod {
     defaultPackageName = "de.kallecrafter.globalrangs"
