@@ -22,9 +22,6 @@ public class Config extends AddonConfig {
   @SwitchSetting
   private final ConfigProperty<Boolean> enabled = new ConfigProperty<>(true);
 
-
-
-
   @Override
   public ConfigProperty<Boolean> enabled() {
     return this.enabled;
