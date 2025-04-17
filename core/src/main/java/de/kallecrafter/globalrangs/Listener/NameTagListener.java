@@ -34,7 +34,6 @@ public class NameTagListener {
     String server = Laby.references().serverController().getCurrentStorageServerData().getName().toLowerCase();
     Component icon1 = null;
     if (playerRank != null) {
-      if (server.contentEquals((CharSequence) ServerChecker.allowedServers)) {
         if (!server.contains("craftergang")) {
           if (playerRank.equals("Owner")) {
             icon1 = Component.icon(
@@ -88,7 +87,7 @@ public class NameTagListener {
             .append(Component.text("§7" + event.getPlayerInfo().profile().getUsername())));
       }
     }
-  }
+
 
 
 

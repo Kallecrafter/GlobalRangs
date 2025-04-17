@@ -31,7 +31,6 @@ public class ChatReceiveListener {
     Component modifiedMessage = Component.empty();
     String server = Laby.references().serverController().getCurrentStorageServerData().getName().toString().toLowerCase();
     if (playerRank != null) {
-      if (server.contentEquals((CharSequence) ServerChecker.allowedServers)) {
         if (playerRank.equals("Owner")) {
           Component ownerIcon;
           if (!server.contains("craftergang")) {
@@ -183,7 +182,7 @@ public class ChatReceiveListener {
       }
       event.setMessage(modifiedMessage);
     }
-  }
+
 
 
 
