@@ -31,7 +31,7 @@ public class ChatReceiveListener {
     Component modifiedMessage = Component.empty();
     String server = Laby.references().serverController().getCurrentStorageServerData().getName().toString().toLowerCase();
     if (playerRank != null) {
-      if (ServerChecker.allowedServers.contains(server)) {
+      if (server.contentEquals((CharSequence) ServerChecker.allowedServers)) {
         if (playerRank.equals("Owner")) {
           Component ownerIcon;
           if (!server.contains("craftergang")) {
@@ -238,6 +238,7 @@ public class ChatReceiveListener {
       }
       else if (rangName.startsWith("VIP")) {
         int index = rangName.indexOf("VIP");
+
         if (index != -1) {
           String foundWord = rangName.substring(index, index + "VIP".length());
           return foundWord;
@@ -245,15 +246,33 @@ public class ChatReceiveListener {
       }
       else if (rangName.startsWith("Supremium")) {
         int index = rangName.indexOf("Supremium");
+
         if (index != -1) {
           String foundWord = rangName.substring(index, index + "Supremium".length());
           return foundWord;
         }
       }
-      else if (rangName.startsWith("Supremium")) {
-        int index = rangName.indexOf("Supremium");
+      else if (rangName.equals("Suprem")) {
+        int index = rangName.indexOf("Suprem");
+
         if (index != -1) {
-          String foundWord = rangName.substring(index, index + "Supremium".length());
+          String foundWord = rangName.substring(index, index + "Suprem".length());
+          return foundWord;
+        }
+      }
+      else if (rangName.equals("Supreme")) {
+        int index = rangName.indexOf("Supreme");
+
+        if (index != -1) {
+          String foundWord = rangName.substring(index, index + "Supreme".length());
+          return foundWord;
+        }
+      }
+      else if (rangName.startsWith("Premium")) {
+        int index = rangName.indexOf("Premium");
+
+        if (index != -1) {
+          String foundWord = rangName.substring(index, index + "Premium".length());
           return foundWord;
         }
       }
