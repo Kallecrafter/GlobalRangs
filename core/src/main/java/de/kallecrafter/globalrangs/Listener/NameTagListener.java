@@ -212,6 +212,13 @@ public class NameTagListener {
           return foundWord;
         }
       }
+      else if (rangName.equals("Spieler")) {
+        int index = rangName.indexOf("Spieler");
+        if (index != -1) {
+          String foundWord = rangName.substring(index, index + "Spieler".length());
+          return foundWord;
+        }
+      }
     }
     return null;
   }
