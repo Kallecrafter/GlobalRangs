@@ -11,6 +11,7 @@ import net.labymod.api.client.resources.ResourceLocation;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.chat.ChatReceiveEvent;
 import net.labymod.api.event.client.render.PlayerNameTagRenderEvent;
+import java.awt.*;
 
 public class NameTagListener {
 
@@ -27,7 +28,6 @@ public class NameTagListener {
     Component prefix = event.getPlayerInfo().getTeam().getPrefix();
     String playerRank = getPlayerRank(prefix);
     String server = Laby.references().serverController().getCurrentStorageServerData().getName().toLowerCase();
-
     if (playerRank == null || !ServerChecker.allowedServers.contains(server)) {
       return;
     }
@@ -59,7 +59,7 @@ public class NameTagListener {
       return createIcon("supremium.png", 12, 22);
     } else if ((rank.startsWith("premium") || rank.startsWith("§6")) && server.contains("gommehd")) {
       return createIcon("supremium.png", 12, 22);
-    } else if ((rank.equals("s") && server.contains("craftergang")) || (rank.startsWith("§a") && server.contains("gommehd"))) {
+    } else if ((rank.equals("s") && server.contains("craftergang")) || (rank.startsWith(Color.GREEN.toString()) && server.contains("gommehd"))) {
       return createIcon("spieler.png", 12, 22);
     }
 

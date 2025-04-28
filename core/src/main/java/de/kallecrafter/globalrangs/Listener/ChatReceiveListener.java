@@ -30,7 +30,9 @@ public class ChatReceiveListener {
     Component message = event.message();
     Component modifiedMessage = Component.empty();
     String server = Laby.references().serverController().getCurrentStorageServerData().getName().toLowerCase();
-
+    if (message.children().contains("»") || message.children().contains("(") || message.children().contains("(") || message.children().contains("«") || message.children().contains("[") || message.children().contains("]")) {
+      return;
+    }
     if (playerRank != null && ServerChecker.allowedServers.contains(server)) {
       String rankLower = playerRank.toLowerCase();
       Component icon = null;
