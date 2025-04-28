@@ -11,11 +11,6 @@ import net.labymod.api.client.resources.ResourceLocation;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.chat.ChatReceiveEvent;
 import net.labymod.api.event.client.render.PlayerNameTagRenderEvent;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import static de.kallecrafter.globalrangs.Listener.ServerChecker.allowedServers;
 
 public class NameTagListener {
 
@@ -29,199 +24,74 @@ public class NameTagListener {
 
   @Subscribe
   public void onNameTagReceive(PlayerNameTagRenderEvent event) {
-    String playerRank = getPlayerrank(event.getPlayerInfo().getTeam().getPrefix());
-    Component modifiedMessage = Component.empty();
-    String server = Laby.references().serverController().getCurrentStorageServerData().getName().toString().toLowerCase();
-    Component icon1 = null;
-    if (playerRank != null) {
-      if (ServerChecker.allowedServers.contains(server)) {
-        if (playerRank.equals("Owner")) {
-          if (!server.contains("craftergang")) {
-            icon1 = Component.icon(
-                    Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/ownerred.png")))
-                .setHeight(8).setWidth(18);
-          } else {
-            icon1 = Component.icon(Icon.texture(
-                    ResourceLocation.create("globalrangs", "textures/rangs/ownerblue.png")))
-                .setHeight(8).setWidth(18);
-          }
-        } else if (playerRank.startsWith("Admin")) {
-          icon1 = Component.icon(
-                  Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/admin.png")))
-              .setHeight(8).setWidth(18);
-        } else if (playerRank.startsWith("Mod")) {
-          icon1 = Component.icon(
-              Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/mod.png"))
-          ).setHeight(8).setWidth(18);
-        } else if (playerRank.startsWith("Dev")) {
-          icon1 = Component.icon(
-              Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/dev.png"))
-          ).setHeight(8).setWidth(18);
-        } else if (playerRank.startsWith("TeamFreund") || playerRank.startsWith("TeamFreund+")
-            || playerRank.startsWith("TF") || playerRank.startsWith("TF+")) {
-          icon1 = Component.icon(
-                  Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/teamfreund.png")))
-              .setHeight(12).setWidth(22);
-        } else if (playerRank.startsWith("VIP") && server.contains("gommehd")) {
-          icon1 = Component.icon(
-                  Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/vip.png")))
-              .setHeight(12).setWidth(22);
-        } else if (playerRank.startsWith("Build") || playerRank.startsWith("Builder")) {
-          icon1 = Component.icon(
-                  Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/builder.png")))
-              .setHeight(12).setWidth(22);
-        } else if (playerRank.startsWith("Supremium") || playerRank.startsWith("Supreme") || playerRank.startsWith("§b") && server.contains("gommehd")) {
-          icon1 = Component.icon(
-                  Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/supremium.png")))
-              .setHeight(12).setWidth(22);
-        } else if (playerRank.startsWith("Premium") || playerRank.startsWith("§6") && server.contains("gommehd")) {
-          icon1 = Component.icon(
-                  Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/supremium.png")))
-              .setHeight(12).setWidth(22);
-        } else if (playerRank.startsWith("S") && server.contains("craftergang")) {
-          icon1 = Component.icon(
-                  Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/spieler.png")))
-              .setHeight(12).setWidth(22);
-        } else if (playerRank.startsWith("§a") && server.contains("gommehd")) {
-          icon1 = Component.icon(
-                  Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/spieler.png")))
-              .setHeight(12).setWidth(22);
-        }
-        event.setNameTag(icon1.append(Component.text("§7" + event.getPlayerInfo().profile().getUsername())));
-      }
+    Component prefix = event.getPlayerInfo().getTeam().getPrefix();
+    String playerRank = getPlayerRank(prefix);
+    String server = Laby.references().serverController().getCurrentStorageServerData().getName().toLowerCase();
+
+    if (playerRank == null || !ServerChecker.allowedServers.contains(server)) {
+      return;
     }
+    Component icon = getRankIcon(playerRank, server);
+    if (icon == null) return;
+
+    event.setNameTag(icon.append(Component.text("§7" + event.getPlayerInfo().profile().getUsername())));
   }
 
+  private Component getRankIcon(String playerRank, String server) {
+    String rank = playerRank.toLowerCase();
 
-
-  public static String getPlayerrank(Component rang) {
-    String rangName = null;
-    if (rang != null) {
-      rangName = rang.toString();
-      if (rangName.contains("Owner")) {
-        int index = rangName.indexOf("Owner");
-
-        if (index != -1) {
-          String foundWord = rangName.substring(index, index + "Owner".length());
-          return foundWord;
-        }
-      } else if (rangName.contains("Admin")) {
-        int index = rangName.indexOf("Admin");
-
-        if (index != -1) {
-          String foundWord = rangName.substring(index, index + "Admin".length());
-          return foundWord;
-        }
-      }
-      else if (rangName.startsWith("Mod")) {
-        int index = rangName.indexOf("Mod");
-
-        if (index != -1) {
-          String foundWord = rangName.substring(index, index + "Mod".length());
-          return foundWord;
-        }
-      }
-      else if (rangName.startsWith("Dev")) {
-        int index = rangName.indexOf("Dev");
-
-        if (index != -1) {
-          String foundWord = rangName.substring(index, index + "Dev".length());
-          return foundWord;
-        }
-      }
-      else if (rangName.startsWith("Freund/in")) {
-        int index = rangName.indexOf("Freund/in");
-        if (index != -1) {
-          String foundWord = rangName.substring(index, index + "Freund/in".length());
-          return foundWord;
-        }
-      }
-      else if (rangName.startsWith("TF")) {
-        int index = rangName.indexOf("TF");
-        if (index != -1) {
-          String foundWord = rangName.substring(index, index + "TF".length());
-          return foundWord;
-        }
-      }
-      else if (rangName.startsWith("VIP")) {
-        int index = rangName.indexOf("VIP");
-
-        if (index != -1) {
-          String foundWord = rangName.substring(index, index + "VIP".length());
-          return foundWord;
-        }
-      }
-      else if (rangName.equals("§b")) {
-        int index = rangName.indexOf("§b");
-
-        if (index != -1) {
-          String foundWord = rangName.substring(index, index + "§b".length());
-          return foundWord;
-        }
-      }
-      else if (rangName.equals("Supremium")) {
-        int index = rangName.indexOf("Supremium");
-
-        if (index != -1) {
-          String foundWord = rangName.substring(index, index + "Supremium".length());
-          return foundWord;
-        }
-      }
-      else if (rangName.equals("Suprem")) {
-        int index = rangName.indexOf("Suprem");
-
-        if (index != -1) {
-          String foundWord = rangName.substring(index, index + "Suprem".length());
-          return foundWord;
-        }
-      }
-      else if (rangName.equals("Supreme")) {
-        int index = rangName.indexOf("Supreme");
-
-        if (index != -1) {
-          String foundWord = rangName.substring(index, index + "Supreme".length());
-          return foundWord;
-        }
-      }
-      else if (rangName.equals("§6")) {
-        int index = rangName.indexOf("§6");
-        if (index != -1) {
-          String foundWord = rangName.substring(index, index + "§6".length());
-          return foundWord;
-        }
-      }
-      else if (rangName.startsWith("Premium")) {
-        int index = rangName.indexOf("Premium");
-
-        if (index != -1) {
-          String foundWord = rangName.substring(index, index + "Premium".length());
-          return foundWord;
-        }
-      }
-      else if (rangName.equals("§a")) {
-        int index = rangName.indexOf("§a");
-        if (index != -1) {
-          String foundWord = rangName.substring(index, index + "§a".length());
-          return foundWord;
-        }
-      }
-      else if (rangName.equals("S")) {
-        int index = rangName.indexOf("S");
-        if (index != -1) {
-          String foundWord = rangName.substring(index, index + "S".length());
-          return foundWord;
-        }
-      }
-      else if (rangName.equals("Spieler")) {
-        int index = rangName.indexOf("Spieler");
-        if (index != -1) {
-          String foundWord = rangName.substring(index, index + "Spieler".length());
-          return foundWord;
-        }
-      }
+    if (rank.equals("owner")) {
+      String texture = server.contains("craftergang") ? "ownerblue.png" : "ownerred.png";
+      return createIcon(texture, 8, 18);
+    } else if (rank.startsWith("admin")) {
+      return createIcon("admin.png", 8, 18);
+    } else if (rank.startsWith("mod")) {
+      return createIcon("mod.png", 8, 18);
+    } else if (rank.startsWith("dev")) {
+      return createIcon("dev.png", 8, 18);
+    } else if (rank.startsWith("teamfreund") || rank.startsWith("tf")) {
+      return createIcon("teamfreund.png", 12, 22);
+    } else if (rank.startsWith("vip") && server.contains("gommehd")) {
+      return createIcon("vip.png", 12, 22);
+    } else if (rank.startsWith("build") || rank.startsWith("builder")) {
+      return createIcon("builder.png", 12, 22);
+    } else if ((rank.startsWith("supremium") || rank.startsWith("supreme") || rank.startsWith("§b")) && server.contains("gommehd")) {
+      return createIcon("supremium.png", 12, 22);
+    } else if ((rank.startsWith("premium") || rank.startsWith("§6")) && server.contains("gommehd")) {
+      return createIcon("supremium.png", 12, 22);
+    } else if ((rank.equals("s") && server.contains("craftergang")) || (rank.startsWith("§a") && server.contains("gommehd"))) {
+      return createIcon("spieler.png", 12, 22);
     }
+
     return null;
   }
+
+  private Component createIcon(String textureName, int height, int width) {
+    return Component.icon(
+        Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/" + textureName))
+    ).setHeight(height).setWidth(width);
+  }
+
+  private String getPlayerRank(Component prefix) {
+    if (prefix == null) return null;
+
+    String raw = prefix.toString().toLowerCase();
+
+    String[] knownRanks = {
+        "owner", "admin", "mod", "dev", "teamfreund", "teamfreund+", "tf", "tf+",
+        "vip", "build", "builder", "supremium", "supreme", "premium",
+        "§b", "§6", "§a", "s", "spieler"
+    };
+
+    for (String rank : knownRanks) {
+      if (raw.contains(rank)) {
+        return rank;
+      }
+    }
+
+    return null;
+  }
+
 
 
 }

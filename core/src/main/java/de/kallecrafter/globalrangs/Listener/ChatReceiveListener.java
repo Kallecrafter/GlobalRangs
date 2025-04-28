@@ -63,7 +63,6 @@ public class ChatReceiveListener {
           }
         }
         default -> {
-          // Kein bekanntes Icon für diesen Rang
         }
       }
 
@@ -116,7 +115,6 @@ public class ChatReceiveListener {
 
     String text = component.toString().toLowerCase();
 
-    // Suchreihenfolge von wichtig zu unwichtig
     String[] possibleRanks = {
         "owner", "admin", "mod", "dev", "freund/in", "teamfreund",
         "vip", "supremium", "supreme", "premium", "spieler"
