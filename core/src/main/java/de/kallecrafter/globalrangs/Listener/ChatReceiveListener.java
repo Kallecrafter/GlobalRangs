@@ -3,18 +3,14 @@ package de.kallecrafter.globalrangs.Listener;
 import de.kallecrafter.globalrangs.GlobalRangsMain;
 import net.labymod.api.Laby;
 import net.labymod.api.client.component.Component;
+import net.labymod.api.client.component.IconComponent;
 import net.labymod.api.client.component.TextComponent;
-import net.labymod.api.client.component.serializer.plain.PlainTextComponentSerializer;
-import net.labymod.api.client.entity.player.tag.TagType;
 import net.labymod.api.client.gui.icon.Icon;
 import net.labymod.api.client.resources.ResourceLocation;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.chat.ChatReceiveEvent;
 
-import java.util.List;
-
 public class ChatReceiveListener {
-
   private final GlobalRangsMain addon;
 
   public ChatReceiveListener(GlobalRangsMain addon) {
@@ -23,118 +19,113 @@ public class ChatReceiveListener {
 
   @Subscribe
   public void onChatReceive(ChatReceiveEvent event) {
+    Component component1 = null;
+    String playerRank = getPlayerrank(event.message());
     Component message = event.message();
-    String playerRank = getPlayerRank(message);
-    if (playerRank == null) return;
-
-    var serverData = Laby.references().serverController().getCurrentStorageServerData();
-    if (serverData == null || serverData.getName() == null) return;
-
-    String server = serverData.getName().toLowerCase();
-    if (!ServerChecker.allowedServers.contains(server)) return;
-
-    Component icon = null;
-    String rankLower = playerRank.toLowerCase();
-
-    switch (rankLower) {
-      case "owner":
-        icon = createIcon(server.contains("craftergang")
-            ? "globalrangs:textures/rangs/ownerblue.png"
-            : "globalrangs:textures/rangs/ownerred.png");
-        break;
-      case "admin":
-        icon = createIcon("globalrangs:textures/rangs/admin.png");
-        break;
-      case "mod":
-        icon = createIcon("globalrangs:textures/rangs/mod.png");
-        break;
-      case "dev":
-        icon = createIcon("globalrangs:textures/rangs/dev.png");
-        break;
-      case "freund/in":
-      case "teamfreund":
-        icon = createIcon("globalrangs:textures/rangs/teamfreund.png");
-        break;
-      case "vip":
-        icon = createIcon("globalrangs:textures/rangs/vip.png");
-        break;
-      case "supremium":
-      case "supreme":
-        if (server.contains("gommehd")) {
-          icon = createIcon("globalrangs:textures/rangs/supremium.png");
+    TextComponent textComponent = Component.empty();
+    IconComponent iconComponent1 = Component.icon(Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/grdesigner.png"))).setHeight(12).setWidth(22);
+    IconComponent iconComponent2 = Component.icon(Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/grdev.png"))).setHeight(12).setWidth(22);
+    if (playerRank != null) {
+      if (playerRank.equals("Owner")) {
+        IconComponent iconComponent;
+        if (!Laby.references().serverController().getCurrentStorageServerData().getName().toString().toLowerCase().contains("craftergang")) {
+          iconComponent = Component.icon(Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/ownerred.png"))).setHeight(12).setWidth(22);
+        } else {
+          iconComponent = Component.icon(Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/ownerblue.png"))).setHeight(12).setWidth(22);
         }
-        break;
-      case "premium":
-        if (server.contains("gommehd")) {
-          icon = createIcon("globalrangs:textures/rangs/premium.png");
+        for (int i = 0; i < message.children().size(); ) {
+          Component c = message.children().get(i);
+          TextComponent t = (TextComponent)c;
+          boolean space = t.content().endsWith(" ");
+          if (!t.content().startsWith(playerRank)) {
+            i++;
+            continue;
+          }
+          Component n = iconComponent.append((Component)Component.text(space ? " " : ""));
+          message.replace(i, n);
+          component1 = textComponent.append(Component.text(" ").append(message));
         }
-        break;
-      case "spieler":
-        if (server.contains("craftergang") || server.contains("gommehd")) {
-          icon = createIcon("globalrangs:textures/rangs/spieler.png");
+      } else if (playerRank.startsWith("Admin")) {
+        IconComponent iconComponent = Component.icon(Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/admin.png"))).setHeight(12).setWidth(22);
+        for (int i = 0; i < message.children().size(); ) {
+          Component c = message.children().get(i);
+          TextComponent t = (TextComponent)c;
+          boolean space = t.content().endsWith(" ");
+          if (!t.content().startsWith(playerRank)) {
+            i++;
+            continue;
+          }
+          Component n = iconComponent.append((Component)Component.text(space ? " " : ""));
+          message.replace(i, n);
+          component1 = component1.append(Component.text(" ").append(message));
         }
-        break;
-      default:
-        break;
-    }
-
-    if (icon != null) {
-      Component modifiedMessage = replaceRankWithIcon(message, playerRank, icon);
-      event.setMessage(modifiedMessage);
-    }
-  }
-
-  private Component createIcon(String fullTexturePath) {
-    String[] parts = fullTexturePath.split(":", 2);
-    if (parts.length != 2) {
-      throw new IllegalArgumentException("Invalid texture path format: " + fullTexturePath);
-    }
-    return Component.icon(Icon.texture(ResourceLocation.create(parts[0], parts[1])))
-        .setHeight(12)
-        .setWidth(22);
-  }
-
-  private Component replaceRankWithIcon(Component message, String rank, Component icon) {
-    String rankLower = rank.toLowerCase();
-    Component result = Component.empty();
-    boolean replaced = false;
-
-    for (Component child : message.children()) {
-      if (replaced || !(child instanceof TextComponent text)) {
-        result = result.append(child);
-        continue;
-      }
-
-      String contentLower = text.content().toLowerCase();
-      boolean endsWithSpace = text.content().endsWith(" ");
-
-      if (contentLower.startsWith(rankLower)) {
-        result = result.append(icon.append(Component.text(endsWithSpace ? " " : "")));
-        replaced = true;
+      } else if (playerRank.startsWith("Mod")) {
+        IconComponent iconComponent = Component.icon(Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/mod.png"))).setHeight(12).setWidth(22);
+        for (int i = 0; i < message.children().size(); ) {
+          Component c = message.children().get(i);
+          TextComponent t = (TextComponent)c;
+          boolean space = t.content().endsWith(" ");
+          if (!t.content().startsWith(playerRank)) {
+            i++;
+            continue;
+          }
+          Component n = iconComponent.append((Component)Component.text(space ? " " : ""));
+          message.replace(i, n);
+          component1 = component1.append(Component.text(" ").append(message));
+        }
+      } else if (playerRank.startsWith("VIP")) {
+        IconComponent iconComponent = Component.icon(Icon.texture(ResourceLocation.create("globalrangs", "textures/rangs/vip.png"))).setHeight(12).setWidth(22);
+        for (int i = 0; i < message.children().size(); ) {
+          Component c = message.children().get(i);
+          TextComponent t = (TextComponent)c;
+          boolean space = t.content().endsWith(" ");
+          if (!t.content().startsWith(playerRank)) {
+            i++;
+            continue;
+          }
+          Component n = iconComponent.append((Component)Component.text(space ? " " : ""));
+          message.replace(i, n);
+          component1 = component1.append(Component.text(" ").append(message));
+        }
       } else {
-        result = result.append(child);
+        component1 = component1.append(message);
       }
+    } else {
+      component1 = component1.append(message);
     }
-
-    return result;
+    event.setMessage(component1);
   }
 
-  public static String getPlayerRank(Component component) {
-    if (component == null) return null;
-
-    String text = PlainTextComponentSerializer.plainText().serialize(component).toLowerCase();
-
-    List<String> possibleRanks = List.of(
-        "owner", "admin", "mod", "dev", "freund/in", "teamfreund",
-        "vip", "supremium", "supreme", "premium", "spieler"
-    );
-
-    for (String rank : possibleRanks) {
-      if (text.contains(rank)) {
-        return rank;
+  public static String getPlayerrank(Component rang) {
+    String rangName = null;
+    if (rang != null) {
+      rangName = rang.toString();
+      if (rangName.contains("Owner")) {
+        int index = rangName.indexOf("Owner");
+        if (index != -1) {
+          String foundWord = rangName.substring(index, index + "Owner".length());
+          return foundWord;
+        }
+      } else if (rangName.contains("Admin")) {
+        int index = rangName.indexOf("Admin");
+        if (index != -1) {
+          String foundWord = rangName.substring(index, index + "Admin".length());
+          return foundWord;
+        }
+      } else if (rangName.startsWith("Mod")) {
+        int index = rangName.indexOf("Mod");
+        if (index != -1) {
+          String foundWord = rangName.substring(index, index + "Mod".length());
+          return foundWord;
+        }
+      } else if (rangName.startsWith("vip")) {
+        int index = rangName.indexOf("vip");
+        if (index != -1) {
+          String foundWord = rangName.substring(index, index + "vip".length());
+          return foundWord;
+        }
       }
     }
-
     return null;
   }
 }

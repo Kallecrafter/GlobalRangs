@@ -6,7 +6,7 @@ plugins {
 val versions = providers.gradleProperty("net.labymod.minecraft-versions").get().split(";")
 
 group = "de.kallecrafter"
-version = providers.environmentVariable("VERSION").getOrElse("1.0.5")
+version = providers.environmentVariable("VERSION").getOrElse("1.0.6")
 
 labyMod {
     defaultPackageName = "de.kallecrafter.globalrangs"
@@ -26,7 +26,7 @@ labyMod {
         displayName = "GlobalRanks"
         author = "Kallecrafter"
         description = "An addon that converts ranks into rank icons."
-        minecraftVersion = "1.8<1.21.5"
+        minecraftVersion = "1.8<1.18.2"
         version = rootProject.version.toString()
     }
 }
